@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "990144341003",
+    "firebase_url": "https://colorbond-d0e6f.firebaseio.com",
+    "project_id": "colorbond-d0e6f",
+    "storage_bucket": "colorbond-d0e6f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:990144341003:android:f3611fd5fd0b118f",
+        "android_client_info": {
+          "package_name": "com.colorbond"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "990144341003-qvj5tcasj7tehr6qt6k67vnj0dea2tqm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA3m1gkrnQgTsRTAMTsjPuJ8RCXLq0QTa8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
