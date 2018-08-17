@@ -36,7 +36,7 @@ export default class LoginBond extends React.Component{
   _loadInitialState = async () => {
     var value = await AsyncStorage.getItem('email');
     if(value !== null){
-      this.props.navigation.navigate('BondPage');
+      this.props.navigation.navigate('BondClub');
     }
   }
 
@@ -73,13 +73,13 @@ export default class LoginBond extends React.Component{
   }
 
   login = () => {
-
+    //alert(this.state.email);
     fetch('http://apps.colorbond.id/api/member/login', {
       method: 'POST',
       headers:{
         'Accept':'application/json',
         'Content-Type':'application/json',
-        'Authorization': 'Bearer AIzaSyCmoufZxGw0LMHVKWVYroYLbHr5x-EPbCI'
+        'Authorization': 'key=AIzaSyCmoufZxGw0LMHVKWVYroYLbHr5x-EPbCI'
       },
       body:JSON.stringify({
         email:this.state.email,
@@ -92,8 +92,8 @@ export default class LoginBond extends React.Component{
     .then((res) => {
 
       if (res.success === true){
-        AsyncStorage.setItem('email'.res.email);
-        this.props.navigation.navigate('BondPage');
+        AsyncStorage.setItem('email',res.email);
+        this.props.navigation.navigate('BondClub');
       }
 
       else {

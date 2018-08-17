@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Platform, Text, View, Image, Button,
   BackHandler,
   ToastAndroid,
+  AsyncStorage,
   TouchableHighlight} from 'react-native';
 import {styles} from './assets/style';
 import SplashScreen from 'react-native-splash-screen';
@@ -9,19 +10,30 @@ import { createStackNavigator } from 'react-navigation';
 import FragmentIntroApp from './FragmentIntroApp';
 import FrCategory from './FrCategory';
 import LoginBond from './component/LoginBond';
+import BondClub from './pages/BondClub';
 
 
 class Intro extends React.Component{
   componentDidMount() {
     // do stuff while splash screen is shown
-    // After having done stuff (such as async tasks) hide the splash screen
     SplashScreen.hide();
+    this._loadInitialState().done();
   }
+
+  _loadInitialState = async () => {
+    var value = await AsyncStorage.getItem('email');
+    if(value !== null){
+      this.props.navigation.navigate('BondClub');
+    }else{
+      const {navigate} = this.props.navigation;
+      setTimeout(() => {
+        navigate('SplasherPage');
+      }, 2000);
+    }
+  }
+
   render(){
-    const {navigate} = this.props.navigation;
-    setTimeout(() => {
-      navigate('SplasherPage');
-    }, 2000);
+
     return (
       <View style={styles.container}>
         <View style={styles.backgroundImage}>
@@ -77,6 +89,7 @@ const RootStack = createStackNavigator(
     SplasherPage  : IntroApp,
     CatPage       : Category,
     BondLogin     : LoginBond,
+    BondClub      : BondClub,
   },
   {
     navigationOptions:{
