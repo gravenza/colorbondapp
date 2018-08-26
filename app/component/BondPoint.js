@@ -69,7 +69,7 @@ export default class BondPoint extends Component {
               <Image style={styles.imgPoint} source={require('../res/button_02.png')} />
               <Text style={{flex:1,flexDirection:'column'}}>
                 <Text style={{width:'100%'}}>My Point {"\n"}</Text>
-                <Text style={{width:'100%',fontWeight:'bold'}}>{item.calculate_poin}</Text>
+                <Text style={{width:'100%',fontWeight:'bold'}}>{item.poin}</Text>
               </Text>
             </View>
 

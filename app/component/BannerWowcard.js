@@ -53,7 +53,6 @@ export default class BondWowcards extends Component {
             <View style={styles.bgEvent}>
               <Image style={{width: '100%', height: 250}} source={{uri: item.file_location+'/'+item.image}} />
             </View>
-            <Text>{item.banner_title}</Text>
           </View>
         )}
       </View>
