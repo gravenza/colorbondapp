@@ -13,6 +13,7 @@ import {
   import { createStackNavigator, createDrawerNavigator } from 'react-navigation';
   import DrawerHeader from '../component/DrawerHeader';
   import TabNavBottom from '../component/TabNavBottom';
+  import BondRewardfr from '../component/BondRewardfr';
 
 export default class BondRewards extends React.Component {
 
@@ -53,8 +54,10 @@ export default class BondRewards extends React.Component {
         <DrawerHeader bgcolor={'#333'} btnpress={this._btnPress} title={"REWARD"} />
 
           <View style={styles.merchantBox}>
-            <Image style={{width:'100%',height:250}} source={require('../res/bisnistrip.png')} />
+            <Image style={{width:'100%',height:250}} source={{uri:'http://apps.colorbond.id/access/assets/file/reward_slider/1.jpg'}} />
           </View>
+
+          <BondRewardfr />
 
         <TabNavBottom
         pressrwd={this._pressrwd}
