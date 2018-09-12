@@ -62,16 +62,16 @@ class IntroApp extends React.Component{
 
 class Category extends React.Component {
   componentDidMount() {
-    BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
+    //BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
   }
 
   componentWillUnmount() {
-    BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress);
+    //BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress);
   }
 
   handleBackPress = () => {
     //this.goBack(); // works best when the goBack is async
-    return true;
+    //return true;
   }
 
   render() {

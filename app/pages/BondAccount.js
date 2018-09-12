@@ -33,6 +33,12 @@ export default class BondAccount extends React.Component {
   _pressntf = () => { this.props.navigation.navigate('Notif') };
   _pressids = () => { this.props.navigation.navigate('Ideas') };
 
+  _handlelogout = () => {
+    AsyncStorage.removeItem('id');
+    AsyncStorage.removeItem('email');
+    this.props.navigation.navigate('AllCategory');
+  };
+
   render() {
     return (
       <View style={styles.container}>
@@ -70,6 +76,14 @@ export default class BondAccount extends React.Component {
           </View>
         </View>
 
+        <View style={{flexDirection:'row',alignItems:'center',justifyContent:'center',marginTop:10}}>
+          <TouchableOpacity style={{alignItems:'center'}} onPress={this._handlelogout}>
+            <Text style={styles.btn_logout}>Logout</Text>
+          </TouchableOpacity>
+        </View>
+
+
+
         <TabNavBottom
         pressrwd={this._pressrwd}
         presssbt={this._presssbt}
@@ -83,11 +97,12 @@ export default class BondAccount extends React.Component {
   }
 }
 
+
+
 //return <RootStack />;
 const styles = StyleSheet.create({
   container: {
     flex:1,
-    height:'100%'
   },
   bgUniversal:{
     position:'absolute',
@@ -131,7 +146,6 @@ const styles = StyleSheet.create({
   sectionColumn:{
     paddingLeft:20,
     paddingRight:20,
-    height:200
   },
   wrapperProfile:{
     justifyContent:'center',
@@ -158,5 +172,15 @@ const styles = StyleSheet.create({
   titleAccount:{
     color:'#fff',
     alignSelf:'flex-start'
+  },
+  btn_logout:{
+    backgroundColor:'#ec3039',
+    color:'#fff',
+    padding:2,
+    paddingLeft:10,
+    paddingRight:10,
+    paddingBottom:4,
+    borderRadius:2,
+    alignSelf:'center'
   }
 })

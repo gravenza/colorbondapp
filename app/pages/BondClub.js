@@ -24,65 +24,70 @@ import BondRewards from './BondRewards';
 import BondSubmit from './BondSubmit';
 import BondNotification from './BondNotification';
 import BondIdeas from './BondIdeas';
+import Category from './Category';
+import LoginBond from '../component/LoginBond';
 
-const MyApp = createDrawerNavigator({
-  Home: BondHome,
-  Reward : BondRewards,
-  Submit : BondSubmit,
-  Notif : BondNotification,
-  Ideas : BondIdeas,  
-  MyAccount: {
-    screen: createStackNavigator(
-    {
-      HomeAccount : {
-        screen : BondAccount,
-        navigationOptions: () => ({
-          headerMode: 'none',
-          headerStyle:{
-            display:'none'
-          },
-          headerBackTitle: null
-        }),
+//createDrawerNavigator
+
+const MyApp = createStackNavigator({
+  Home: {
+    screen: createDrawerNavigator({
+      BondClub: BondHome,
+      MyAccount: {
+        screen: BondAccount,
       },
-      EditProfile: EditProfile,
-      ChangePassword: ChangePassword,
+      Events: {
+        screen: BondEvent,
+      },
+      Merchant: {
+        screen: BondMerchant,
+      },
+      Variant: {
+        screen: BondVariant,
+      },
+      BlueScope: {
+        screen: BondScope,
+      },
+      Faq: {
+        screen: BondFaq,
+      },
+      Reward : BondRewards,
+      Submit : BondSubmit,
+      Notif : BondNotification,
+      Ideas : BondIdeas,
     },
     {
-      initialRouteName: 'HomeAccount'
-    }
-  ),
-    navigationOptions : () => ({
-      drawerLabel: 'My Account',
-      drawerIcon: ({ tintColor }) => (
-        <Image
-          source={require('../res/button_05.png')}
-          style={[{width:24,height:24}, {tintColor: tintColor}]}
-        />
-      ),
+      headerMode: 'screen'
     })
-
   },
-  Events: {
-    screen: BondEvent,
-  },
-  Merchant: {
-    screen: BondMerchant,
-  },
-  Variant: {
-    screen: BondVariant,
-  },
-  BlueScope: {
-    screen: BondScope,
-  },
-  Faq: {
-    screen: BondFaq,
+  EditProfile : EditProfile,
+  ChangePassword : ChangePassword,
+  AllCategory  : Category,
+  BondLogin    : LoginBond,
+},
+{
+  navigationOptions: {
+    headerStyle: {
+      display: 'none',
+    },
   }
-},{
-  headerMode: 'screen'
 });
 
 
 export default class BondClub extends React.Component {
+
+  componentDidMount() {
+    // do stuff while splash screen is shown
+    //SplashScreen.hide();
+    this._loadInitialState().done();
+  }
+
+  _loadInitialState = async () => {
+    var value = await AsyncStorage.getItem('email');
+    if(value === null){
+      this.props.navigation.navigate('CatPage');
+    }
+  }
 
   render() {
     return (

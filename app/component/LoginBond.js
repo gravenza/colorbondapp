@@ -92,7 +92,15 @@ export default class LoginBond extends React.Component{
     .then((res) => {
 
       if (res.success === true){
+        AsyncStorage.setItem('id',res.id);
+        AsyncStorage.setItem('name',res.name);
         AsyncStorage.setItem('email',res.email);
+        AsyncStorage.setItem('phone',res.phone);
+        AsyncStorage.setItem('company',res.company);
+        AsyncStorage.setItem('date_of_birth',res.date_of_birth);
+        AsyncStorage.setItem('gender',res.gender);
+        AsyncStorage.setItem('job_title',res.job_title);
+        AsyncStorage.setItem('join_date',res.join_date);
         this.props.navigation.navigate('BondClub');
       }
 

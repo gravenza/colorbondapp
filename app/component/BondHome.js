@@ -31,6 +31,20 @@ class LogoTitle extends React.Component {
 }
 export default class BondHome extends Component {
 
+  componentDidMount() {
+    // do stuff while splash screen is shown
+    //SplashScreen.hide();
+    this._loadInitialState().done();
+  }
+
+  _loadInitialState = async () => {
+    var value = await AsyncStorage.getItem('email');
+    if(value === null){
+      alert('You are logout now');
+      this.props.navigation.navigate('AllCategory');
+    }
+  }
+
 
   static navigationOptions = {
 

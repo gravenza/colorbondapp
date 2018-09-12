@@ -15,35 +15,74 @@ export default class BondPoint extends Component {
 
   constructor(props){
     super(props);
-    this.state = {isLoading: true, welcome:"Welcome, let's increase your point"};
+    
+    this.state = {isLoading: true};
 
-    AsyncStorage.getItem('email', (error, result) => {
+    AsyncStorage.getItem('name', (error, result) => {
         if (result) {
             this.setState({
-                email: result
+                name: result
             });
         }
     });
-
   }
 
-  componentDidMount(){
-    return fetch('http://apps.colorbond.id/api/projects/point?id=123')
-      .then((response) => response.json())
-      .then((responseJson) => {
+  // componentDidMount(){
+  //
+  //   return fetch('http://apps.colorbond.id/api/projects/point?id=129')
+  //     .then((response) => response.json())
+  //     .then((responseJson) => {
+  //
+  //       this.setState({
+  //         isLoading: false,
+  //         dataSource: responseJson
+  //       }, function(){
+  //
+  //       });
+  //
+  //     })
+  //     .catch((error) =>{
+  //       console.error(error);
+  //     });
+  // }
 
-        this.setState({
-          isLoading: false,
-          dataSource: responseJson
-        }, function(){
-
-        });
-
-      })
-      .catch((error) =>{
-        console.error(error);
-      });
+  componentWillMount(){
+    this.queryData();
   }
+
+  queryData = async () => {
+
+    AsyncStorage.getItem('id', (error, result) => {
+        if (result) {
+          const ids = result
+
+          fetch('http://apps.colorbond.id/api/projects/point?id='+ ids)
+          .then((response) => response.json())
+          .then((responseJson) => {
+            this.setState({
+              isLoading: false,
+              dataSource: responseJson
+            }, function(){
+
+            });
+
+            })
+              .catch((error) =>{
+              console.error(error);
+            });
+
+          console.log(this.state.id)
+        }
+    });
+
+    //const link = () => { return (this.state.ids)};
+    //const url = link+ this.state.id;
+    //const response = await fetch(link);
+    //const dataJson = await response.json();
+    //this.setState({isLoading: false, dataSource: dataJson});
+  }
+
+
 
   render() {
     if(this.state.isLoading){
@@ -61,8 +100,8 @@ export default class BondPoint extends Component {
           <View style={styles.row} key={item.id_users}>
 
             <View style={styles.pointLeft}>
-              <Text>Hi {this.state.email}</Text>
-              <Text>{this.state.welcome}</Text>
+              <Text>Hi {this.state.name}</Text>
+              <Text>{'Welcome, let\'s increase your point'}</Text>
             </View>
 
             <View style={styles.pointRight}>

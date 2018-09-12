@@ -12,28 +12,8 @@ import {
   Animated} from 'react-native';
   import { createStackNavigator, createDrawerNavigator } from 'react-navigation';
   import { TabView, TabBar, SceneMap } from 'react-native-tab-view';
-
-  const FirstRoute = () => (
-    <View style={[styles.container, { backgroundColor: '#ddd' }]}>
-      <TouchableOpacity>
-      <Image style={{width: '100%', height: 130}} source={{uri:'http://apps.colorbond.id/access/assets/file/reward_slider/1.jpg'}} />
-      </TouchableOpacity>
-    </View>
-  );
-  const SecondRoute = () => (
-    <View style={[styles.container, { backgroundColor: '#ddd' }]} >
-      <TouchableOpacity>
-      <Image style={{width: '100%', height: 130}} source={{uri:'http://apps.colorbond.id/access/assets/file/reward_slider/2.jpg'}} />
-      </TouchableOpacity>
-    </View>
-  );
-  const ThirdRoute = () => (
-    <View style={[styles.container, { backgroundColor: '#ddd' }]}>
-      <TouchableOpacity>
-      <Image style={{width: '100%', height: 130}} source={{uri:'http://apps.colorbond.id/access/assets/file/reward_slider/3.jpg'}} />
-      </TouchableOpacity>
-    </View>
-  );
+  import Modal from "react-native-modal";
+  import {FirstRoute,SecondRoute,ThirdRoute} from "./BondTabView";
 
   export default class BondRewardfr extends React.Component {
     state = {
@@ -42,10 +22,17 @@ import {
         { key: 'first', title: 'Shopping Voucher' },
         { key: 'second', title: 'Business Travel' },
         { key: 'third', title: 'Bussines Gathering' },
-      ],
+      ]
     };
 
-    // _handleIndexChange = index => this.setState({ index });
+    _toggleModal1 = () =>
+      this.setState({ isModalVisible1: !this.state.isModalVisible1 });
+
+    _toggleModal2 = () =>
+      this.setState({ isModalVisible2: !this.state.isModalVisible2 });
+
+    _toggleModal3 = () =>
+      this.setState({ isModalVisible3: !this.state.isModalVisible3 });
 
     _renderTabBar = props => {
       const inputRange = props.navigationState.routes.map((x, i) => i);
@@ -72,15 +59,24 @@ import {
       );
     };
 
+    _renderScene = ({ route }) => {
+      switch (route.key) {
+      case 'first':
+        return <FirstRoute navmodal={this.state.isModalVisible1} toggleModal={this._toggleModal1} />;
+      case 'second':
+        return <SecondRoute navmodal={this.state.isModalVisible2} toggleModal={this._toggleModal2} />;
+      case 'third':
+        return <ThirdRoute navmodal={this.state.isModalVisible3} toggleModal={this._toggleModal3} />;
+      default:
+        return null;
+      }
+    };
+
     render() {
       return (
         <TabView
           navigationState={this.state}
-          renderScene={SceneMap({
-            first: FirstRoute,
-            second: SecondRoute,
-            third: ThirdRoute,
-          })}
+          renderScene={this._renderScene}
           renderTabBar={this._renderTabBar}
           onIndexChange={index => this.setState({ index })}
           initialLayout={{ width: Dimensions.get('window').width, height:200 }}
