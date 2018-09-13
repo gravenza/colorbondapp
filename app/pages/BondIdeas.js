@@ -10,8 +10,10 @@ import {
   TouchableOpacity,
   AsyncStorage} from 'react-native';
   import { createStackNavigator, createDrawerNavigator } from 'react-navigation';
+  import DrawerHeader from '../component/DrawerHeader';
+  import TabNavBottom from '../component/TabNavBottom';
 
-export default class BondRewards extends React.Component {
+export default class BondIdeas extends React.Component {
 
   static navigationOptions = {
     drawerLabel: 'Merchant Promo',
@@ -23,10 +25,25 @@ export default class BondRewards extends React.Component {
     ),
   }
 
+  _pressrwd = () => { this.props.navigation.navigate('Reward') };
+  _presssbt = () => { this.props.navigation.navigate('Submit') };
+  _pressntf = () => { this.props.navigation.navigate('Notif') };
+  _pressids = () => { this.props.navigation.navigate('Ideas') };
+  _btnPress = () => { this.props.navigation.toggleDrawer() }
+
   render() {
     return (
-      <View>
-        <Text>Bond Ideas Page</Text>
+      <View style={styles.container}>
+
+        <DrawerHeader btnpress={this._btnPress} title={"INSPIRATION"} />
+
+        <TabNavBottom
+        pressrwd={this._pressrwd}
+        presssbt={this._presssbt}
+        pressntf={this._pressntf}
+        pressids={this._pressids}
+        />
+
       </View>
     )
 

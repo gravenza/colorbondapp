@@ -4,27 +4,46 @@ import {
   Text,
   View,
   Image,
-  Button,
+  Picker,
   ScrollView,
   TextInput,
   StyleSheet,
+  CameraRoll,
   TouchableOpacity,
   KeyboardAvoidingView,
+  PermissionsAndroid,
   AsyncStorage} from 'react-native';
   import { createStackNavigator, createDrawerNavigator } from 'react-navigation';
   import DrawerHeader from '../component/DrawerHeader';
   import TabNavBottom from '../component/TabNavBottom';
+  import DatePicker from 'react-native-datepicker'
 
 export default class BondSubmit extends React.Component {
 
+  constructor(props){
+    super(props);
+    this.state = {
+      date:'',
+      categorySize:''
+    }
+  }
+
   static navigationOptions = {
-    drawerLabel: 'Merchant Promo',
+    drawerLabel: 'Project Submit',
     drawerIcon: ({ tintColor }) => (
       <Image
         source={require('../res/button_05.png')}
         style={[{width:24,height:24}, {tintColor: tintColor}]}
       />
     ),
+  }
+
+  getPhoto(){
+    CameraRoll.getPhotos({ first: 1000000 })
+      .then(res => {
+        let photoArray = res.edges;
+        this.setState({ showPhotoGallery: true, photoArray: photoArray })
+      })
   }
 
   _pressrwd = () => { this.props.navigation.navigate('Reward') };
@@ -69,27 +88,61 @@ export default class BondSubmit extends React.Component {
 
           <View style={styles.row}>
             <Text style={styles.label}>{'Construction Start Date'}</Text>
-            <TextInput style={styles.inputText} placeholder='yyyy-mm-dd' />
+            <DatePicker
+              style={{width: 208,height:40,backgroundColor:'#ddd'}}
+              date={this.state.date}
+              mode="date"
+              placeholder="Select Date"
+              format="YYYY-MM-DD"
+              minDate="1960-01-01"
+              maxDate="2018-12-30"
+              confirmBtnText="Confirm"
+              cancelBtnText="Cancel"
+              customStyles={{
+                dateIcon: {
+                  position: 'absolute',
+                  left: 0,
+                  top: 4,
+                  marginLeft: 0
+                },
+                dateInput: {
+                  marginLeft: 36
+                }
+                // ... You can check the source to find the other keys.
+              }}
+              onDateChange={(date) => {this.setState({date: date})}}
+            />
           </View>
 
           <View style={styles.row}>
             <Text style={styles.label}>{'Location'}</Text>
-            <TextInput style={styles.inputText} placeholder='Location' />
+            <TextInput style={styles.inputText} placeholder='Your project location' />
           </View>
 
           <View style={styles.row}>
             <Text style={styles.label}>{'Size'}</Text>
-            <TextInput style={styles.inputText} placeholder='Size' />
+            <TextInput style={[styles.inputText,{width:'50%'}]} placeholder='Size' />
+            <Text style={{marginLeft:10,paddingTop:5}}>{'/m2'}</Text>
           </View>
 
           <View style={styles.row}>
             <Text style={styles.label}>{'Size Category'}</Text>
-            <TextInput style={styles.inputText} placeholder='Size Category' />
+            <Picker
+              selectedValue={this.state.categorySize}
+              style={{ height: 30, width: '60%' }}
+              itemStyle={{backgroundColor:'#ddd'}}
+              onValueChange={(itemValue, itemIndex) => this.setState({categorySize: itemValue})}>
+              <Picker.Item label="SPECIFIED" value="SPECIFIED" />
+              <Picker.Item label="WIN" value="WIN" />
+              <Picker.Item label="WIN COLORBOND+LYSAGHT" value="WIN COLORBOND+LYSAGHT" />
+            </Picker>
           </View>
 
           <View style={styles.column}>
             <Text style={styles.labelFull}>{'Upload Specification & Additional Document'}</Text>
+            <TouchableOpacity onPress={this.getPhoto()}>
             <TextInput style={styles.inputTextFull} placeholder='File Picker' />
+            </TouchableOpacity>
           </View>
 
           <View style={styles.row}>
@@ -100,8 +153,24 @@ export default class BondSubmit extends React.Component {
           <View style={styles.column}>
             <Text style={[styles.label,{width:'100%'}]}>{'Colorbond materials Used'}</Text>
             <View style={styles.row}>
-            <TextInput style={[styles.inputText,{width:'50%',marginRight:10}]} placeholder='select' />
-            <TextInput style={[styles.inputText,{width:'50%',marginLeft:10}]} placeholder='select' />
+            <Picker
+              selectedValue={this.state.categorySize}
+              style={{ height: 30, width: '50%', marginRight:10 }}
+              itemStyle={{backgroundColor:'#ddd'}}
+              onValueChange={(itemValue, itemIndex) => this.setState({categorySize: itemValue})}>
+              <Picker.Item label="SPECIFIED" value="SPECIFIED" />
+              <Picker.Item label="WIN" value="WIN" />
+              <Picker.Item label="WIN COLORBOND+LYSAGHT" value="WIN COLORBOND+LYSAGHT" />
+            </Picker>
+            <Picker
+              selectedValue={this.state.categorySize}
+              style={{ height: 30, width: '45%' }}
+              itemStyle={{backgroundColor:'#ddd'}}
+              onValueChange={(itemValue, itemIndex) => this.setState({categorySize: itemValue})}>
+              <Picker.Item label="SPECIFIED" value="SPECIFIED" />
+              <Picker.Item label="WIN" value="WIN" />
+              <Picker.Item label="WIN COLORBOND+LYSAGHT" value="WIN COLORBOND+LYSAGHT" />
+            </Picker>
             </View>
           </View>
 

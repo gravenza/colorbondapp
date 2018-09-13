@@ -10,6 +10,7 @@
     "react": "16.4.1",
     "react-native": "0.56.0",
     "react-native-app-intro-slider": "^1.0.1",
+    "react-native-datepicker": "^1.7.2",
     "react-native-fcm": "^16.1.0",
     "react-native-fontawesome": "^5.7.0",
     "react-native-modal": "^6.5.0",
