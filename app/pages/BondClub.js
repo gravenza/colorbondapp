@@ -24,6 +24,7 @@ import BondRewards from './BondRewards';
 import BondSubmit from './BondSubmit';
 import BondNotification from './BondNotification';
 import BondIdeas from './BondIdeas';
+import DetailArticle from './DetailArticle';
 import Category from './Category';
 import LoginBond from '../component/LoginBond';
 
@@ -60,6 +61,7 @@ const MyApp = createStackNavigator({
       headerMode: 'screen'
     })
   },
+  DetailArticle : DetailArticle,
   EditProfile : EditProfile,
   ChangePassword : ChangePassword,
   AllCategory  : Category,

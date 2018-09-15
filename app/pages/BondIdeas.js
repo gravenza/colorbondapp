@@ -8,21 +8,41 @@ import {
   ScrollView,
   StyleSheet,
   TouchableOpacity,
+  AppRegistry,
+  ActivityIndicator,
   AsyncStorage} from 'react-native';
   import { createStackNavigator, createDrawerNavigator } from 'react-navigation';
   import DrawerHeader from '../component/DrawerHeader';
   import TabNavBottom from '../component/TabNavBottom';
+  import DetailArticle from './DetailArticle';
+  import Carousel from 'react-native-carousel-view';
+
 
 export default class BondIdeas extends React.Component {
 
-  static navigationOptions = {
-    drawerLabel: 'Merchant Promo',
-    drawerIcon: ({ tintColor }) => (
-      <Image
-        source={require('../res/button_05.png')}
-        style={[{width:24,height:24}, {tintColor: tintColor}]}
-      />
-    ),
+  constructor(props){
+    super(props);
+    this.state = {
+      isLoading: true
+    }
+  }
+
+  componentDidMount(){
+    return fetch('http://apps.colorbond.id/api/inspirasi?result=5')
+      .then((response) => response.json())
+      .then((responseJson) => {
+
+        this.setState({
+          isLoading: false,
+          dataSource: responseJson,
+        }, function(){
+
+        });
+
+      })
+      .catch((error) =>{
+        console.error(error);
+      });
   }
 
   _pressrwd = () => { this.props.navigation.navigate('Reward') };
@@ -32,11 +52,51 @@ export default class BondIdeas extends React.Component {
   _btnPress = () => { this.props.navigation.toggleDrawer() }
 
   render() {
+
+    if(this.state.isLoading){
+      return(
+        <View style={{flex: 1, justifyContent:'center', alignItems:'center', padding: 20}}>
+          <ActivityIndicator/>
+        </View>
+      )
+    }
+
     return (
       <View style={styles.container}>
 
         <DrawerHeader btnpress={this._btnPress} title={"INSPIRATION"} />
+          <View style={[styles.mainSlider,{marginTop:-50}]}>
+          <Carousel
+            width={null}
+            height={240}
+            delay={6000}
+            indicatorAtBottom={true}
+            indicatorSize={60}
+            indicatorText="•"
+            inactiveIndicatorText= "•"
+            indicatorColor="red"
+            >
 
+            {this.state.dataSource.map((item) =>
+              <View key={item.id_inspirasi}>
+                <Image style={{width:420,height:240,}}  source={{ uri:item.image_slider}} />
+                <Text style={styles.titleSlide}>{item.title}</Text>
+              </View>
+            )}
+
+          </Carousel>
+          </View>
+
+          <View style={styles.article}>
+            {this.state.dataSource.map((item) =>
+              <View key={item.id_inspirasi}>
+                <TouchableOpacity onPress={() => { this.props.navigation.navigate('DetailArticle',{article_id:item.id_inspirasi }) }} style={{width:'100%',height:120}}>
+                <Image style={{width:420,height:120,}} resizeMode="cover"  source={{ uri:item.image_slider}} />
+                <Text style={styles.titleArticle}>{item.title}</Text>
+                </TouchableOpacity>
+              </View>
+            )}
+          </View>
         <TabNavBottom
         pressrwd={this._pressrwd}
         presssbt={this._presssbt}
@@ -64,49 +124,32 @@ const styles = StyleSheet.create({
   container: {
     flex:1,
   },
-  bgUniversal:{
-    position:'absolute',
-    left:0,
-    top:0,
+  mainSlider: {
+    position: 'relative',
+    justifyContent:'center',
+    alignItems:'center'
   },
-  header:{
-    flex:1,
-    flexDirection:'row',
-    justifyContent:'flex-start',
-    alignItems:'center',
-    backgroundColor:'transparent',
-    width:'100%',
-    paddingLeft:20,
-    paddingRight:20,
-    height:50,
-    position:'absolute',
-    top:0,
-    left:0,
-    zIndex:3
+  titleSlide:{
+    marginTop:-90,
+    zIndex:3,
+    color:'#fff',
+    fontWeight:'bold',
+    fontSize:18,
+    alignSelf:'center'
   },
-  headerLeft:{
-    width:40,
-    height:50,
-    justifyContent:'center'
-  },
-  headerMiddle:{
-    width:280,
-    height:50,
+  mainArticle: {
+    position: 'relative',
     justifyContent:'center',
     alignItems:'center',
+    flexDirection:'column'
   },
-  imgLogo:{
-    width:150,
-    height:40,
-  },
-  icon: {
-    width: 24,
-    height: 24,
-  },
-  sectionColumn:{
-    paddingLeft:20,
-    paddingRight:20,
-    height:200
+  titleArticle:{
+    marginTop:-80,
+    zIndex:3,
+    color:'#fff',
+    fontWeight:'bold',
+    fontSize:18,
+    alignSelf:'center'
   },
   wrapperProfile:{
     justifyContent:'center',
@@ -134,4 +177,4 @@ const styles = StyleSheet.create({
     color:'#fff',
     alignSelf:'flex-start'
   }
-})
+});
